@@ -1,0 +1,739 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "7d8dddf3d044f4e82860",
+  "position": {
+    "x": 13.12091573057703,
+    "y": 713.77781574339042,
+    "z": 5000,
+    "height": 351.64054157946441,
+    "width": 1128.3987528296248,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Store Geography"
+                    }
+                  },
+                  "Property": "Continent Name"
+                }
+              },
+              "queryRef": "Store Geography.Continent Name",
+              "nativeQueryRef": "Continent Name",
+              "active": true
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Store Geography"
+                    }
+                  },
+                  "Property": "Region Country Name"
+                }
+              },
+              "queryRef": "Store Geography.Region Country Name",
+              "nativeQueryRef": "Region Country Name",
+              "active": false
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Store Geography"
+                    }
+                  },
+                  "Property": "State Province Name"
+                }
+              },
+              "queryRef": "Store Geography.State Province Name",
+              "nativeQueryRef": "State Province Name",
+              "active": false
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Store Geography"
+                    }
+                  },
+                  "Property": "City"
+                }
+              },
+              "queryRef": "Store Geography.City",
+              "nativeQueryRef": "City",
+              "active": false
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measure"
+                    }
+                  },
+                  "Property": "Total Profit (All channel)"
+                }
+              },
+              "queryRef": "_Measure.Total Profit (All channel)",
+              "nativeQueryRef": "Total Profit ",
+              "displayName": "Total Profit "
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measure"
+                    }
+                  },
+                  "Property": "Profit PY (all channel)"
+                }
+              },
+              "queryRef": "_Measure.Profit PY (all channel)",
+              "nativeQueryRef": "Profit PY",
+              "displayName": "Profit PY"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measure"
+                    }
+                  },
+                  "Property": "Total Profit Var (all channel)"
+                }
+              },
+              "queryRef": "_Measure.Total Profit Var (all channel)",
+              "nativeQueryRef": "Total Profit Var",
+              "displayName": "Total Profit Var"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measure"
+                    }
+                  },
+                  "Property": "FMT Profit Var % (all channel)"
+                }
+              },
+              "queryRef": "_Measure.FMT Profit Var % (all channel)",
+              "nativeQueryRef": "Profit Var %",
+              "displayName": "Profit Var %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measure"
+                    }
+                  },
+                  "Property": "Total Cost (All Channels)"
+                }
+              },
+              "queryRef": "_Measure.Total Cost (All Channels)",
+              "nativeQueryRef": "Total Cost",
+              "displayName": "Total Cost"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measure"
+                    }
+                  },
+                  "Property": "FMT Cost Var % (all channel)"
+                }
+              },
+              "queryRef": "_Measure.FMT Cost Var % (all channel)",
+              "nativeQueryRef": "Cost Var % ",
+              "displayName": "Cost Var % "
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Store Geography"
+                  }
+                },
+                "Property": "Continent Name"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "expansionStates": [
+      {
+        "roles": [
+          "Rows"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "Store Geography.Continent Name"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Store Geography"
+                    }
+                  },
+                  "Property": "Continent Name"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "Store Geography.Region Country Name"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Store Geography"
+                    }
+                  },
+                  "Property": "Region Country Name"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "Store Geography.State Province Name"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Store Geography"
+                    }
+                  },
+                  "Property": "State Province Name"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "Store Geography.City"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          }
+        ],
+        "root": {
+          "children": [
+            {
+              "identityValues": [
+                {
+                  "Literal": {
+                    "Value": "'Europe'"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Conditional": {
+                      "Cases": [
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 3,
+                              "Left": {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "_Measure"
+                                    }
+                                  },
+                                  "Property": "Profit Var % (all channel)"
+                                }
+                              },
+                              "Right": {
+                                "Literal": {
+                                  "Value": "0D"
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#E50009'"
+                            }
+                          }
+                        },
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 4,
+                              "Left": {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "_Measure"
+                                    }
+                                  },
+                                  "Property": "Profit Var % (all channel)"
+                                }
+                              },
+                              "Right": {
+                                "Literal": {
+                                  "Value": "100D"
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#179A39'"
+                            }
+                          }
+                        },
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 0,
+                              "Left": {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "_Measure"
+                                    }
+                                  },
+                                  "Property": "Profit Var % (all channel)"
+                                }
+                              },
+                              "Right": {
+                                "RangePercent": {
+                                  "Min": {
+                                    "ScopedEval": {
+                                      "Expression": {
+                                        "Aggregation": {
+                                          "Expression": {
+                                            "ScopedEval": {
+                                              "Expression": {
+                                                "Measure": {
+                                                  "Expression": {
+                                                    "SourceRef": {
+                                                      "Entity": "_Measure"
+                                                    }
+                                                  },
+                                                  "Property": "Profit Var % (all channel)"
+                                                }
+                                              },
+                                              "Scope": [
+                                                {
+                                                  "AllRolesRef": {}
+                                                }
+                                              ]
+                                            }
+                                          },
+                                          "Function": 3
+                                        }
+                                      },
+                                      "Scope": []
+                                    }
+                                  },
+                                  "Max": {
+                                    "ScopedEval": {
+                                      "Expression": {
+                                        "Aggregation": {
+                                          "Expression": {
+                                            "ScopedEval": {
+                                              "Expression": {
+                                                "Measure": {
+                                                  "Expression": {
+                                                    "SourceRef": {
+                                                      "Entity": "_Measure"
+                                                    }
+                                                  },
+                                                  "Property": "Profit Var % (all channel)"
+                                                }
+                                              },
+                                              "Scope": [
+                                                {
+                                                  "AllRolesRef": {}
+                                                }
+                                              ]
+                                            }
+                                          },
+                                          "Function": 4
+                                        }
+                                      },
+                                      "Scope": []
+                                    }
+                                  },
+                                  "Percent": 0
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#171717'"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "_Measure.FMT Profit Var % (all channel)"
+          }
+        },
+        {
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Conditional": {
+                      "Cases": [
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 3,
+                              "Left": {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "_Measure"
+                                    }
+                                  },
+                                  "Property": "Cost Var % (all channel)"
+                                }
+                              },
+                              "Right": {
+                                "Literal": {
+                                  "Value": "0D"
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#E50009'"
+                            }
+                          }
+                        },
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 1,
+                              "Left": {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "_Measure"
+                                    }
+                                  },
+                                  "Property": "Cost Var % (all channel)"
+                                }
+                              },
+                              "Right": {
+                                "Literal": {
+                                  "Value": "0D"
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#179A39'"
+                            }
+                          }
+                        },
+                        {
+                          "Condition": {
+                            "Comparison": {
+                              "ComparisonKind": 0,
+                              "Left": {
+                                "Measure": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Entity": "_Measure"
+                                    }
+                                  },
+                                  "Property": "Cost Var % (all channel)"
+                                }
+                              },
+                              "Right": {
+                                "Literal": {
+                                  "Value": "0D"
+                                }
+                              }
+                            }
+                          },
+                          "Value": {
+                            "Literal": {
+                              "Value": "'#171717'"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 1
+                }
+              }
+            ],
+            "metadata": "_Measure.FMT Cost Var % (all channel)"
+          }
+        }
+      ],
+      "columnFormatting": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1000000000D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measure.Total Cost (All Channels)"
+          }
+        },
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1000000000D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measure.Total Profit Var (all channel)"
+          }
+        },
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1000000000D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measure.Profit PY (all channel)"
+          }
+        },
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1000000000D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measure.Total Profit (All channel)"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "titleWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#171717'"
+                    }
+                  }
+                }
+              }
+            },
+            "background": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 5,
+                      "Percent": 0.6
+                    }
+                  }
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Geography Wise Profit'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "50D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#CCCCCC'"
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "5D"
+                }
+              }
+            },
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

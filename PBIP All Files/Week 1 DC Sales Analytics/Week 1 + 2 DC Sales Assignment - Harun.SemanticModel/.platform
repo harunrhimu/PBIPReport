@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Week 1 + 2 DC Sales Assignment - Harun"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "c2f67768-916e-b6e7-4788-4f173829570b"
+  }
+}

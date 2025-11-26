@@ -1,0 +1,196 @@
+expression StartDate = #date(2019, 1, 1) meta [IsParameterQuery=true, Type="Date", IsParameterQueryRequired=true]
+	lineageTag: 6762294b-fa87-494d-a862-99147e81c51e
+	queryGroup: DateCreating
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Date
+
+expression EndDate = #date(2024, 12, 31) meta [IsParameterQuery=true, Type="Date", IsParameterQueryRequired=true]
+	lineageTag: c14fde84-2f4b-4eb3-971a-3bee12feb5e3
+	queryGroup: DateCreating
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Date
+
+expression 'DatesWith All column' = ```
+		let
+		    ListDates = List.Dates(#"StartDate", Number.From(#"EndDate" - #"StartDate")+1, #duration(1,0,0,0)),
+		    #"Converted to Table" = Table.FromList(ListDates, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+		    #"Renamed Columns" = Table.RenameColumns(#"Converted to Table",{{"Column1", "Date"}}),
+		    #"Added Calendar Date" = Table.AddColumn(#"Renamed Columns", "Calendar Date", each Date.AddMonths ([Date],#"Fiscal Year Reset")),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Added Calendar Date",{{"Date", type date}, {"Calendar Date", type date}}),
+		    #"Month Offset" = Table.AddColumn(#"Changed Type", "Month Offset", each (Date.Year([Date]) - Date.Year(Date.From(DateTime.LocalNow())))*12 
+		+ Date.Month([Date]) - Date.Month(Date.From(DateTime.LocalNow()))),
+		    #"Day Offset" = Table.AddColumn(#"Month Offset", "Day Offset", each Number.From((Date.From(DateTime.LocalNow()) - [Date])) * -1, type number),
+		    #"Year Offset" = Table.AddColumn(#"Day Offset", "Year Offset", each (Date.Year(Date.From(DateTime.LocalNow())) - Date.Year([Date])) * -1),
+		    #"Fiscal Year Offset" = Table.AddColumn(#"Year Offset", "Fiscal Year Offset", each if Date.Month(Date.From(DateTime.LocalNow())) > (12-#"Fiscal Year Reset")
+		
+		then 
+		((Date.Year(Date.From(DateTime.LocalNow())) - Date.Year([Calendar Date])) * -1) -1
+		
+		else 
+		
+		(Date.Year(Date.From(DateTime.LocalNow())) - Date.Year([Calendar Date])) * -1),
+		    #"Inserted Calendar Year" = Table.AddColumn(#"Fiscal Year Offset", "Calendar Year", each Date.Year([Date])),
+		    #"Fiscal Year" = Table.AddColumn(#"Inserted Calendar Year", "Fiscal Year", each "FY" & Date.ToText([Calendar Date], "yy")),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Fiscal Year",{{"Year Offset", Int64.Type}, {"Calendar Year", type text}, {"Fiscal Year", type text}, {"Fiscal Year Offset", Int64.Type}}),
+		    PeriodNumberOfYear = Table.AddColumn(#"Changed Type1" , "PeriodNumberOfYear", each Date.Month([Calendar Date])),
+		    MonthNumberOfYear = Table.AddColumn(PeriodNumberOfYear, "MonthNumberOfYear", each Date.Month([Date]), Int64.Type),
+		    MonthLongName = Table.AddColumn(MonthNumberOfYear, "MonthLongName", each Date.MonthName([Date]), type text),
+		    MonthShortName = Table.AddColumn(MonthLongName, "MonthShortName", each Text.Start([MonthLongName], 3), type text),
+		    #"Month Status" = Table.AddColumn(MonthShortName, "Month Status", each if [Month Offset] = 0 then " Current" else if [Month Offset] > 0 then "Future" else "Complete"),
+		    Month = Table.AddColumn(#"Month Status", "Month", each [MonthShortName]
+		 &" '"& 
+		 Date.ToText([Date], "yy")),
+		    #"Fiscal Month" = Table.AddColumn(Month, "Fiscal Month", each [MonthShortName]
+		 &", "& 
+		[Fiscal Year]),
+		    #"Added LTM" = Table.AddColumn(#"Fiscal Month", "LTM", each if [Month Offset] > -13 and [Month Offset] < 0
+		 then "True"
+		 else "False"),
+		    #"Fiscal Quarter" = Table.AddColumn(#"Added LTM", "Quarter", each "Q"& Text.From(Date.QuarterOfYear([Calendar Date]))),
+		    #"Added QuarterNumberOfYear" = Table.AddColumn(#"Fiscal Quarter", "QuarterNumberOfYear", each Date.QuarterOfYear([Calendar Date])),
+		    #"Fiscal Quarter Year" = Table.AddColumn(#"Added QuarterNumberOfYear", "Fiscal Quarter", each [Quarter]
+		 &" '"& 
+		 [Fiscal Year]),
+		    #"Fiscal Quarter Offset" = Table.AddColumn(#"Fiscal Quarter Year", "Fiscal Quarter Offset", each ( Date.Year (Date.AddMonths([Date],#"Fiscal Year Reset")) 
+		  - 
+		   Date.Year(
+		       Date.From(Date.AddMonths( DateTime.LocalNow(), #"Fiscal Year Reset") )
+		            )
+		  )*4 
+		
+		+ Date.QuarterOfYear (Date.AddMonths([Date],#"Fiscal Year Reset")) 
+		
+		- Date.QuarterOfYear (Date.AddMonths( DateTime.LocalNow(), #"Fiscal Year Reset"))),
+		    #"Inserted DayOfMonth" = Table.AddColumn(#"Fiscal Quarter Offset", "DayOfMonth", each Date.Day([Date]), type number),
+		    #"Inserted Day Name" = Table.AddColumn(#"Inserted DayOfMonth", "Weekday", each Date.DayOfWeekName([Date]), type text),
+		    #"Inserted WeekdayShortName" = Table.AddColumn(#"Inserted Day Name", "WeekdayShortName", each Text.Start([Weekday], 3), type text),
+		    #"Inserted WeekDayNumber" = Table.AddColumn(#"Inserted WeekdayShortName", "WeekdayNumber", each Date.DayOfWeek([Date]), type number),
+		    IsWeekend = Table.AddColumn(#"Inserted WeekDayNumber", "IsWeekend", each Logical.From(if [WeekdayNumber]= 6 or [WeekdayNumber] = 0 then "TRUE" else "FALSE")),
+		    #"Inserted End of Week" = Table.AddColumn(IsWeekend, "StartOfWeek", each Date.StartOfWeek([Date], Day.Monday)),
+		    #"Added WeekName" = Table.AddColumn(#"Inserted End of Week", "WeekName", each Text.Combine
+		(
+		 {
+		  "Week of ",
+		  Date.ToText([StartOfWeek], "MMM"),
+		
+		  "-",
+		  Date.ToText([StartOfWeek], "dd"),
+		  ", '",
+		  Date.ToText([StartOfWeek], "yy")
+		  }
+		)),
+		    #"Week Offset" = Table.AddColumn(#"Added WeekName", "Week Offset", each (
+		    Number.From((Date.From(Date.EndOfWeek(DateTime.LocalNow(), Day.Monday)) - [StartOfWeek]))
+		 * -1) 
+		 / 7),
+		    #"Half Year" = Table.AddColumn(#"Week Offset", "Half Year", each if Number.RoundUp([PeriodNumberOfYear]/6)=1
+		then "1st Half"
+		else "2nd Half"),
+		    #"Fiscal Half Year" = Table.AddColumn(#"Half Year", "Fiscal Half Year", each [Fiscal Year]&" "&[Half Year]),
+		    #"Fiscal Half Year Offset" = Table.AddColumn(#"Fiscal Half Year", "Fiscal Half Year Offset", each [Fiscal Year Offset]*2
+		
+		+ 
+		Number.RoundUp(
+		(Date.Month([Calendar Date]) - Date.Month(Date.From(DateTime.LocalNow())))/6
+		)-1),
+		    #"Changed Type2" = Table.TransformColumnTypes(#"Fiscal Half Year Offset",{{"Week Offset", type number}}),
+		    #"Rounded Down" = Table.TransformColumns(#"Changed Type2",{{"Week Offset", Number.RoundDown, Int64.Type}}),
+		    #"Sorted Rows" = Table.Sort(#"Rounded Down",{{"Date", Order.Ascending}}),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Sorted Rows",{"Date", "Month Offset", "Day Offset", "Year Offset", "Fiscal Year Offset", "Calendar Year", "Fiscal Year", "PeriodNumberOfYear", "MonthNumberOfYear", "MonthLongName", "MonthShortName", "Month Status", "Month", "Fiscal Month", "LTM", "Quarter", "QuarterNumberOfYear", "Fiscal Quarter", "Fiscal Quarter Offset", "DayOfMonth", "Weekday", "WeekdayShortName", "WeekdayNumber", "IsWeekend", "StartOfWeek", "WeekName", "Week Offset", "Half Year", "Fiscal Half Year", "Fiscal Half Year Offset"}),
+		    #"Reordered Columns" = Table.ReorderColumns(#"Removed Other Columns",{"Date", "Calendar Year", "Year Offset", "Fiscal Year", "Fiscal Year Offset", "Month", "Fiscal Month", "Month Offset", "Month Status", "LTM", "PeriodNumberOfYear", "MonthNumberOfYear", "MonthLongName", "MonthShortName", "Fiscal Quarter", "Quarter", "QuarterNumberOfYear", "Fiscal Quarter Offset", "StartOfWeek", "WeekName", "Week Offset", "Day Offset", "DayOfMonth", "Weekday", "WeekdayShortName", "WeekdayNumber", "IsWeekend"}),
+		    #"Changed Type3" = Table.TransformColumnTypes(#"Reordered Columns",{{"Calendar Year", type text}, {"Year Offset", Int64.Type}, {"Fiscal Year", type text}, {"Fiscal Year Offset", Int64.Type}, {"Month Status", type text}, {"Fiscal Month", type text}, {"Month", type text}, {"Month Offset", Int64.Type}, {"LTM", type logical}, {"PeriodNumberOfYear", Int64.Type}, {"MonthNumberOfYear", Int64.Type}, {"MonthLongName", type text}, {"MonthShortName", type text}, {"Fiscal Quarter", type text}, {"Quarter", type text}, {"QuarterNumberOfYear", Int64.Type}, {"Fiscal Quarter Offset", Int64.Type}, {"Week Offset", Int64.Type}, {"StartOfWeek", type text}, {"WeekName", type text}, {"Day Offset", Int64.Type}, {"DayOfMonth", Int64.Type}, {"WeekdayNumber", Int64.Type}, {"Weekday", type text}, {"WeekdayShortName", type text}, {"IsWeekend", type logical}, {"Half Year", type text}, {"Fiscal Half Year", type text}, {"Fiscal Half Year Offset", Int64.Type}}),
+		    #"Sorted Rows1" = Table.Sort(#"Changed Type3",{{"Date", Order.Descending}})
+		in
+		    #"Sorted Rows1"
+		```
+	lineageTag: a0d5af81-aff2-442d-a2ea-8686a1bc3003
+	queryGroup: DateCreating
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression FlatFile =
+		let
+		    Source = Folder.Files(Sources),
+		    FilteredFile = Table.SelectRows(Source, each [Name] = "DC Sales Information.csv"),
+		    GetFileContent = Table.TransformColumns(FilteredFile, {"Content", Csv.Document}),
+		    ExpandedContent = GetFileContent{0}[Content],
+		    #"Promoted Headers" = Table.PromoteHeaders(ExpandedContent, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"OrderID", type text}, {"OrderDate", type date}, {"CustomerID", type text}, {"CustomerName", type text}, {"CustomerSegment", type text}, {"Region", type text}, {"Country", type text}, {"City", type text}, {"PostalCode", Int64.Type}, {"ProductID", type text}, {"ProductName", type text}, {"Category", type text}, {"SubCategory", type text}, {"SalesChannel", type text}, {"UnitsSold", Int64.Type}, {"UnitPrice", type number}, {"Revenue", type number}, {"Cost", type number}, {"Profit", type number}, {"Discount", type number}, {"PaymentMode", type text}, {"DeliveryDate", type date}})
+		in
+		    #"Changed Type"
+	lineageTag: 2598fc03-4a22-413c-8cf1-2f3bda6e46a5
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression Sources = "C:\Users\MdHarunOrRoshid\Downloads" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 40265f43-8bd7-405e-ac21-2f1b2e9a0cff
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression 'Fiscal Year Reset' = 3 meta [IsParameterQuery=true, List={1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, DefaultValue=3, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: 690f9bd7-392e-44a4-b4d5-853e0bcdfe4d
+	queryGroup: DateCreating
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Number
+
+expression LearningDateTable = ```
+		let
+		    //Defining start date
+		    #"StartDate" = #date(2019,1,1),
+		    //Defining end date
+		    #"EndDate" = #date(2024, 12, 31),
+		    //Numberof data
+		    #"NumberofDays" =  Duration.Days(EndDate  - StartDate) +1,
+		    // making a list of date with one year
+		    Source = List.Dates(#"StartDate", #"NumberofDays", #duration(1,0,0,0)),
+		    //Converted to table for better exploration
+		    #"Converted to Table" = Table.FromList(Source, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+		    //Rename the column name "Column1" to "Date"
+		    #"Renamed Columns" = Table.RenameColumns(#"Converted to Table",{{"Column1", "Date"}}),
+		    //converted the type of Date column
+		    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Date", type date}}),
+		    //add year column from the date table
+		    #"Inserted year" = Table.AddColumn(#"Changed Type","Year", each Date.Year([Date]), Int64.Type ),
+		    //add month column from the date table
+		    #"Inserted month" = Table.AddColumn(#"Inserted year","Month", each Date.Month([Date]), Int64.Type ),
+		    //Inserted month name
+		    #"Inserted month name" = Table.AddColumn(#"Inserted month", "Month Name", each Date.MonthName([Date]), Text.Type), 
+		    //InsertedDay of Week
+		    //#"Inserted Day of Week" = Table.AddColumn(#"Inserted month name", "Day of Week", each Date.DayOfWeek([Date]), Int64.Type),
+		    #"Inserted Day of Week" = Table.AddColumn(#"Inserted month name", "Day of Week", each Date.DayOfWeek([Date]), Int64.Type),
+		    //InsertedDay name
+		    #"Inserted Day Name" = Table.AddColumn(#"Inserted Day of Week", "Day Name", each Date.DayOfWeekName([Date]), Text.Type),
+		    //Add conditional Column
+		    #"Conditional Column" = Table.AddColumn(#"Inserted Day Name", "IS Weekend", each if [Day of Week] = 6 then "Yes" else  if [Day of Week] = 0 then "Yes" else "No"),
+		    //inserted start of month
+		    #"Inserted Start of Month" = Table.AddColumn(#"Conditional Column", "Start of Month", each Date.StartOfMonth([Date]), type date),
+		
+		
+		    #"Added Custom" = Table.AddColumn(#"Inserted Start of Month", "Year Month", each [Year] * 100 + [Month]),
+		    #"Added Custom1" = Table.AddColumn(#"Added Custom", "Current Month", each let cm = Date.StartOfMonth(DateTime.LocalNow())
+		in Date.Year(cm) * 100 + Date.Month(cm)),
+		    #"Inserted Subtraction" = Table.AddColumn(#"Added Custom1", "Subtraction", each [Year Month] - [Current Month], type number),
+		    #"Added Conditional Column1" = Table.AddColumn(#"Inserted Subtraction", "Month Type", each if [Subtraction] = 0 then "This Month" else if [Subtraction] = 1 then "Next Month" else if [Subtraction] = -1 then "Previous Month" else "Other Month"),
+		    #"Removed Columns" = Table.RemoveColumns(#"Added Conditional Column1",{"Current Month", "Subtraction"}),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Removed Columns",{{"IS Weekend", type text}})
+		in
+		    #"Changed Type1"
+		```
+	lineageTag: 5faef0c1-9259-4a23-98c3-51343fe8fa1b
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

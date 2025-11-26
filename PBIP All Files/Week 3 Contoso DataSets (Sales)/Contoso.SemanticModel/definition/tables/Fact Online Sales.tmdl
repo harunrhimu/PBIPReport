@@ -1,0 +1,198 @@
+table 'Fact Online Sales'
+	lineageTag: e2d50111-c3fc-4569-8c87-7a959a455a0f
+
+	column OnlineSalesKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 469b8515-4213-475b-a254-cd060b5dcf3d
+		summarizeBy: count
+		sourceColumn: OnlineSalesKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 806a60b4-b744-4f97-9c13-5477c319f417
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 35681d44-9e56-495d-bb5f-e878c84604f1
+		summarizeBy: none
+		sourceColumn: StoreKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ecabea60-6de9-4327-980e-cbde7a39fbff
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column PromotionKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c74e520a-8240-45ec-a293-aaddd9c481de
+		summarizeBy: count
+		sourceColumn: PromotionKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrencyKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a0e5ab1a-ffdd-4ec3-981f-5ce9e076d902
+		summarizeBy: count
+		sourceColumn: CurrencyKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 446c5adf-45f3-4a1b-b0d2-fff9d6faeae8
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesOrderNumber
+		dataType: string
+		lineageTag: 6677d7cc-694c-4b05-9e6d-bdd4a6bb2bc2
+		summarizeBy: none
+		sourceColumn: SalesOrderNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesOrderLineNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: a829bd14-5719-4606-86cb-7ed1fff4fd5c
+		summarizeBy: sum
+		sourceColumn: SalesOrderLineNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesQuantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 7654fd54-2ca2-47d9-a99a-023082c01769
+		summarizeBy: sum
+		sourceColumn: SalesQuantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesAmount
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 852fa3ec-e1dd-4bb7-96d0-fa3563716aae
+		summarizeBy: sum
+		sourceColumn: SalesAmount
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReturnQuantity
+		dataType: int64
+		formatString: 0
+		lineageTag: ff923332-92a4-4e94-92da-0625f4bd6171
+		summarizeBy: sum
+		sourceColumn: ReturnQuantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReturnAmount
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 294d1434-f63a-4798-83ea-d3b22c4e586f
+		summarizeBy: sum
+		sourceColumn: ReturnAmount
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiscountQuantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 3671d6b4-345a-4f9c-a9e4-67df5e0ebd6f
+		summarizeBy: sum
+		sourceColumn: DiscountQuantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiscountAmount
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: a2f02e47-ae0f-4fbe-810f-ca3bb7c15e8d
+		summarizeBy: sum
+		sourceColumn: DiscountAmount
+
+		annotation SummarizationSetBy = Automatic
+
+	column TotalCost
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 7e2d4bff-43ba-4adc-b196-74285cd0c249
+		summarizeBy: sum
+		sourceColumn: TotalCost
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitCost
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 15957ccb-3a77-4cf0-9bf8-a5da6a556fd3
+		summarizeBy: sum
+		sourceColumn: UnitCost
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitPrice
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 8096d17a-8527-42c2-af59-3a1dd43ff03e
+		summarizeBy: sum
+		sourceColumn: UnitPrice
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Fact Online Sales' = m
+		mode: import
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"41af1aaf-2eb9-4c7d-89b0-912d289b316a" = Workspaces{[workspaceId="41af1aaf-2eb9-4c7d-89b0-912d289b316a"]}[Data],
+				    #"99907e0e-3269-4eb9-a294-ee78afd6b2c1" = #"41af1aaf-2eb9-4c7d-89b0-912d289b316a"{[dataflowId="99907e0e-3269-4eb9-a294-ee78afd6b2c1"]}[Data],
+				    FactOnlineSales_ = #"99907e0e-3269-4eb9-a294-ee78afd6b2c1"{[entity="Fact Online Sales",version=""]}[Data]
+				in
+				    FactOnlineSales_
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
