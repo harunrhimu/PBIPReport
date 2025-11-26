@@ -1,0 +1,129 @@
+table 'Store Geography'
+	lineageTag: 65c54ede-226d-489c-b397-62e6a16a2dc8
+
+	column StoreKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 8c43d13f-bb83-489d-93f4-04293ad53d49
+		summarizeBy: none
+		sourceColumn: StoreKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column GeographyKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: fe1cf73c-b296-41a6-9be6-ced16a13edbd
+		summarizeBy: count
+		sourceColumn: GeographyKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreManager
+		dataType: int64
+		formatString: 0
+		lineageTag: b95ae8c9-e849-4380-9577-7c8dcad0b3aa
+		summarizeBy: sum
+		sourceColumn: StoreManager
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreType
+		dataType: string
+		lineageTag: 8c946730-c847-4e14-8e0b-dab23c1479b6
+		summarizeBy: none
+		sourceColumn: StoreType
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreName
+		dataType: string
+		lineageTag: 99f3fc86-6d0b-4976-a988-38922c1f3a65
+		summarizeBy: none
+		sourceColumn: StoreName
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreDescription
+		dataType: string
+		lineageTag: c916ad83-2477-406c-b204-58d6d84ee401
+		summarizeBy: none
+		sourceColumn: StoreDescription
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: 36fcfc9a-c11c-4a96-923d-33a4081868bf
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column ZipCode
+		dataType: string
+		lineageTag: 59910eaf-b5b6-43a5-93a2-13acefd7607a
+		summarizeBy: none
+		sourceColumn: ZipCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Continent Name'
+		dataType: string
+		lineageTag: 071b85a8-8b8e-4841-9d50-5ef5c35b8103
+		dataCategory: Continent
+		summarizeBy: none
+		sourceColumn: Continent Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: 3fd04acb-6fdc-4ade-993e-48b37e88709e
+		dataCategory: City
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'State Province Name'
+		dataType: string
+		lineageTag: 2dae7f1c-bc64-4efb-9c25-3e4ab7eed095
+		dataCategory: StateOrProvince
+		summarizeBy: none
+		sourceColumn: State Province Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Region Country Name'
+		dataType: string
+		lineageTag: f6dd4c58-44c6-4dd4-a0b2-4905f30f245b
+		dataCategory: County
+		summarizeBy: none
+		sourceColumn: Region Country Name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Store Geography' = m
+		mode: import
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"41af1aaf-2eb9-4c7d-89b0-912d289b316a" = Workspaces{[workspaceId="41af1aaf-2eb9-4c7d-89b0-912d289b316a"]}[Data],
+				    #"99907e0e-3269-4eb9-a294-ee78afd6b2c1" = #"41af1aaf-2eb9-4c7d-89b0-912d289b316a"{[dataflowId="99907e0e-3269-4eb9-a294-ee78afd6b2c1"]}[Data],
+				    DimStore_ = #"99907e0e-3269-4eb9-a294-ee78afd6b2c1"{[entity="Store Geography",version=""]}[Data],
+				    #"Renamed Columns" = Table.RenameColumns(DimStore_,{{"City Name", "City"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

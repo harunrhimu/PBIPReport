@@ -1,0 +1,169 @@
+table 'Fact Sales'
+	lineageTag: b56da1e5-60e7-4835-a323-f8d3ef27fc93
+
+	column SalesKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 0725e2f2-7ce3-4f29-b929-0ca6625d44d0
+		summarizeBy: count
+		sourceColumn: SalesKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		lineageTag: 7db608dd-2fc8-46e5-8323-a61ec78e851c
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column channelKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: cb7d3089-7f28-43d8-9ea7-564424ba7b96
+		summarizeBy: none
+		sourceColumn: channelKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 8c926c78-c7e7-435a-b2dd-96126d64b33b
+		summarizeBy: none
+		sourceColumn: StoreKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b7bfac65-e5bf-4e4e-a948-d51bca288d27
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column PromotionKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 6e6d560a-1699-4751-a542-e91f1ccb37ea
+		summarizeBy: count
+		sourceColumn: PromotionKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitCost
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: ad441773-cf61-44a6-a8b7-86f2615b3a77
+		summarizeBy: sum
+		sourceColumn: UnitCost
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitPrice
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 7a10846d-07a7-4c0f-8784-b217949ca583
+		summarizeBy: sum
+		sourceColumn: UnitPrice
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesQuantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 2692f782-3fbe-41c3-b253-a803acf393b9
+		summarizeBy: sum
+		sourceColumn: SalesQuantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReturnQuantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 9489b87f-4096-443e-90a8-b50455ac1a44
+		summarizeBy: sum
+		sourceColumn: ReturnQuantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReturnAmount
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 49795708-701c-4f3d-b0ad-9141e35b402b
+		summarizeBy: sum
+		sourceColumn: ReturnAmount
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiscountQuantity
+		dataType: int64
+		formatString: 0
+		lineageTag: db93565a-a114-411d-8f8b-172118b3fb35
+		summarizeBy: sum
+		sourceColumn: DiscountQuantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiscountAmount
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: d996daa2-e817-472e-8adf-e93408bc9ccf
+		summarizeBy: sum
+		sourceColumn: DiscountAmount
+
+		annotation SummarizationSetBy = Automatic
+
+	column TotalCost
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 0ac9ad5f-6caa-42a1-884c-2dde111b5554
+		summarizeBy: sum
+		sourceColumn: TotalCost
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesAmount
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 88255f84-ee08-4f41-9e78-847dbf4744be
+		summarizeBy: sum
+		sourceColumn: SalesAmount
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Fact Sales' = m
+		mode: import
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"41af1aaf-2eb9-4c7d-89b0-912d289b316a" = Workspaces{[workspaceId="41af1aaf-2eb9-4c7d-89b0-912d289b316a"]}[Data],
+				    #"99907e0e-3269-4eb9-a294-ee78afd6b2c1" = #"41af1aaf-2eb9-4c7d-89b0-912d289b316a"{[dataflowId="99907e0e-3269-4eb9-a294-ee78afd6b2c1"]}[Data],
+				    FactSales_ = #"99907e0e-3269-4eb9-a294-ee78afd6b2c1"{[entity="Fact Sales",version=""]}[Data]
+				in
+				    FactSales_
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

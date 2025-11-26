@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Week 2 Assignment Harun"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "87d2ca4a-010f-b758-446f-4f3cf494c880"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+  "name": "4b3110a878c2647bdc86",
+  "displayName": "ED TT",
+  "displayOption": "FitToPage",
+  "height": 200,
+  "width": 300,
+  "visibility": "HiddenInViewMode",
+  "type": "Tooltip"
+}

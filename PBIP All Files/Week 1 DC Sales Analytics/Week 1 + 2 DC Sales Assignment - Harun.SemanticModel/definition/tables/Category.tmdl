@@ -1,0 +1,52 @@
+table Category
+	lineageTag: 5e3d2b2e-d2d5-4e2a-976c-c1bc389aca37
+
+	column Category
+		lineageTag: fe40ee0f-7934-4c41-b475-b81c8362d297
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Category Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Category Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Category Fields'
+		isHidden
+		lineageTag: 9a53b997-9ba7-4024-b388-95294d01904a
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Category Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Category Order'
+		isHidden
+		formatString: 0
+		lineageTag: 2a9d042d-20ea-48f0-ba13-fb0d43c839b1
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Category = calculated
+		mode: import
+		source =
+				{
+				    ("Total_Sales", NAMEOF('_Measure'[Total_Sales]), 0),
+				    ("Total_Revenue", NAMEOF('_Measure'[Revenue]), 1),
+				    ("Total_Profit", NAMEOF('_Measure'[Profit]), 2),
+				    ("Total_Cost", NAMEOF('_Measure'[Cost]), 3),
+				    ("Total_Order", NAMEOF('_Measure'[Order]), 4),
+				    ("Total_Discount", NAMEOF('_Measure'[Discount]), 5)
+				}
+
+	annotation PBI_Id = 97e4705d5a7a45df964a477ab31ba20d
+

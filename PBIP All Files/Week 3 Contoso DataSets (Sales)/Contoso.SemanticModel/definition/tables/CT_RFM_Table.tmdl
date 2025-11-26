@@ -1,0 +1,162 @@
+table CT_RFM_Table
+	lineageTag: a2bb579d-2aa7-44d6-9c5d-e4868e93d063
+
+	column CustomerKey
+		formatString: 0
+		lineageTag: 7e19ce7f-6fde-499f-a5e2-5a41bf3241c0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Fact Online Sales[CustomerKey]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer Name'
+		lineageTag: 14839df1-5b8b-4b63-9ca8-f2bcfe0b8cf4
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Customer[Customer Name]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last Purchase Date'
+		formatString: General Date
+		lineageTag: 4eccec9a-94d2-4d56-bef8-4be1d9fcadcf
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Last Purchase Date]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total Spending'
+		lineageTag: 44222057-3440-4258-9797-2bbc84e32ad6
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Total Spending]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Order Frequency'
+		formatString: 0
+		lineageTag: 792a1423-f99a-4969-8590-364db9925f84
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Order Frequency]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total Items Ordered'
+		formatString: 0
+		lineageTag: 25cddc34-16af-4858-94a4-50a64b83ad59
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Total Items Ordered]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Recency (Days)' =
+			
+			DATEDIFF(
+			    CT_RFM_Table[Last Purchase Date],
+			    TODAY(),
+			    DAY
+			)
+		formatString: 0
+		lineageTag: 8f30710f-4386-4c0a-98cb-43bce8509765
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column R-Score =
+			
+			SWITCH(
+			    TRUE(),
+			    [Recency (Days)] <= PERCENTILE.INC(CT_RFM_Table[Recency (Days)], 0.20), "5",
+			    [Recency (Days)] <= PERCENTILE.INC(CT_RFM_Table[Recency (Days)], 0.40), "4",
+			    [Recency (Days)] <= PERCENTILE.INC(CT_RFM_Table[Recency (Days)], 0.60), "3",
+			    [Recency (Days)] <= PERCENTILE.INC(CT_RFM_Table[Recency (Days)], 0.80), "2",
+			    "1"
+			)
+		lineageTag: 4bbc9561-679e-40a0-a253-54b665f02ae8
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column F-Score = ```
+			
+			SWITCH(
+			    TRUE(),
+			    [Order Frequency] <= PERCENTILE.INC(CT_RFM_Table[Order Frequency], 0.20), "1",
+			    [Order Frequency] <= PERCENTILE.INC(CT_RFM_Table[Order Frequency], 0.40), "2",
+			    [Order Frequency] <= PERCENTILE.INC(CT_RFM_Table[Order Frequency], 0.60), "3",
+			    [Order Frequency] <= PERCENTILE.INC(CT_RFM_Table[Order Frequency], 0.80), "4",
+			    "5"
+			)
+			
+			```
+		lineageTag: a7b94603-4f97-453b-8d66-f466a7800f08
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column M-Score = ```
+			
+			SWITCH(
+			    TRUE(),
+			    [Total Spending] <= PERCENTILE.INC(CT_RFM_Table[Total Spending], 0.20), "1",
+			    [Total Spending] <= PERCENTILE.INC(CT_RFM_Table[Total Spending], 0.40), "2",
+			    [Total Spending] <= PERCENTILE.INC(CT_RFM_Table[Total Spending], 0.60), "3",
+			    [Total Spending] <= PERCENTILE.INC(CT_RFM_Table[Total Spending], 0.80), "4",
+			    "5"
+			)
+			
+			```
+		lineageTag: dd3192ca-36b3-4555-adf8-bcf8f6e63678
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'RFM Score' = CT_RFM_Table[R-Score] & CT_RFM_Table[F-Score] &  CT_RFM_Table[M-Score]
+		lineageTag: 2ad55543-47ea-4286-beec-9ae7ad31fb5e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'RFM Segment' =
+			
+			SWITCH(
+			    TRUE(),
+			CT_RFM_Table[RFM Score] IN {"555", "554", "544", "545", "454", "455", "445"}, "Champions",
+			    CT_RFM_Table[RFM Score] IN {"543", "444", "435", "355", "354", "345", "344", "335"}, "Loyal",
+			    CT_RFM_Table[RFM Score] IN {"553", "551", "552", "541", "542", "533", "532", "531", "452", "451", "442", "441", "431", "453", "433", "432", "423", "353", "352", "351", "342", "341", "333", "323"}, "Potential Loyalist",
+			    CT_RFM_Table[RFM Score] IN {"512", "511", "422", "421", "412", "411", "311"}, "New Customers",
+			    CT_RFM_Table[RFM Score] IN {"525", "524", "523", "522", "521", "515", "514", "513", "425", "424", "413", "414", "415", "315", "314", "313"}, "Promising",
+			    CT_RFM_Table[RFM Score] IN {"535", "534", "443", "434", "343", "334", "325", "324"}, "Need Attention",
+			    CT_RFM_Table[RFM Score] IN {"331", "321", "312", "221", "213", "231", "241", "251"}, "About To Sleep",
+			    CT_RFM_Table[RFM Score] IN {"155", "154", "144", "214", "215", "115", "114", "113"}, "Can't Lose Them",
+			    CT_RFM_Table[RFM Score] IN {"255", "254", "245", "244", "253", "252", "243", "242", "235", "234", "225", "224", "153", "152", "145", "143", "142", "135", "134", "133", "125", "124"}, "At Risk",
+			    CT_RFM_Table[RFM Score] IN {"332", "322", "233", "232", "223", "222", "132", "123", "122", "212", "211"}, "Hibernating",
+			    "Lost"
+			)
+		lineageTag: e6853788-0faf-4a10-a573-be15ecc82154
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CT_RFM_Table = calculated
+		mode: import
+		source =
+				
+				SUMMARIZE(
+				    'Fact Online Sales',
+				    'Fact Online Sales'[CustomerKey],
+				    Customer[Customer Name],
+				    "Last Purchase Date", MAX('Fact Online Sales'[DateKey]),
+				    "Total Spending", [Total Online Sales Amount],
+				    "Order Frequency", DISTINCTCOUNT('Fact Online Sales'[SalesOrderNumber]),
+				    "Total Items Ordered", SUM('Fact Online Sales'[SalesQuantity])
+				)
+
+	annotation PBI_Id = 04d039b979dd43ecb77566a9e5962cbd
+

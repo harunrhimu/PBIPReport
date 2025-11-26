@@ -1,0 +1,248 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+  "name": "4c67f6b00e69b293d720",
+  "displayName": "Details",
+  "displayOption": "FitToPage",
+  "height": 1080,
+  "width": 1920,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "e1801df07f06e1b785de",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Product"
+              }
+            },
+            "Property": "Product Category Name"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "p",
+              "Entity": "Product",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "p"
+                          }
+                        },
+                        "Property": "Product Category Name"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Cameras and camcorders'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "Drillthrough"
+      },
+      {
+        "name": "a424a80bd64323c54642",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Product"
+              }
+            },
+            "Property": "Product Subcategory Name"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      },
+      {
+        "name": "ec6624f2bb42d9290636",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Store Geography"
+              }
+            },
+            "Property": "Continent Name"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      },
+      {
+        "name": "ac3cb481562c2b666dfe",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Store Geography"
+              }
+            },
+            "Property": "Region Country Name"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      },
+      {
+        "name": "1498c7d9c147c9c56909",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Store Geography"
+              }
+            },
+            "Property": "State Province Name"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      },
+      {
+        "name": "6db4e9d2e50042b898c2",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Store Geography"
+              }
+            },
+            "Property": "StoreType"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      }
+    ]
+  },
+  "pageBinding": {
+    "name": "1a3843924d6ddf8e6fcf",
+    "type": "Drillthrough",
+    "parameters": [
+      {
+        "name": "d23cd42f41c420495547",
+        "boundFilter": "e1801df07f06e1b785de",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Product"
+              }
+            },
+            "Property": "Product Category Name"
+          }
+        }
+      },
+      {
+        "name": "6134e7a43c78d7bd492a",
+        "boundFilter": "a424a80bd64323c54642",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Product"
+              }
+            },
+            "Property": "Product Subcategory Name"
+          }
+        }
+      },
+      {
+        "name": "567225c55f1279c6997c",
+        "boundFilter": "ec6624f2bb42d9290636",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Store Geography"
+              }
+            },
+            "Property": "Continent Name"
+          }
+        }
+      },
+      {
+        "name": "5c8b5b9b62cd55d16e9b",
+        "boundFilter": "ac3cb481562c2b666dfe",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Store Geography"
+              }
+            },
+            "Property": "Region Country Name"
+          }
+        }
+      },
+      {
+        "name": "053ba249d7b5c0329e89",
+        "boundFilter": "1498c7d9c147c9c56909",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Store Geography"
+              }
+            },
+            "Property": "State Province Name"
+          }
+        }
+      },
+      {
+        "name": "f529a761521b1c3b028c",
+        "boundFilter": "6db4e9d2e50042b898c2",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Store Geography"
+              }
+            },
+            "Property": "StoreType"
+          }
+        }
+      }
+    ]
+  },
+  "objects": {
+    "displayArea": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Middle'"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visibility": "HiddenInViewMode",
+  "type": "Drillthrough"
+}

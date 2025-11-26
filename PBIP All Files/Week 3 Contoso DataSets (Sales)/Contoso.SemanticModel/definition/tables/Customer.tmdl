@@ -1,0 +1,94 @@
+table Customer
+	lineageTag: 467becdf-26d4-4ed0-ba6f-c1bed411b1d2
+
+	column 'Customer Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3ab205d8-d318-4824-b08d-de534644cc5f
+		summarizeBy: none
+		sourceColumn: Customer Key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Geography Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ba9fcc79-a994-41eb-8ab7-3d162fa2d563
+		summarizeBy: count
+		sourceColumn: Geography Key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer Name'
+		dataType: string
+		lineageTag: e498a3f4-569a-44e5-960d-277734a3ce75
+		summarizeBy: none
+		sourceColumn: Customer Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gender
+		dataType: string
+		lineageTag: f1423a96-ea1a-4f49-bae6-13ae46e1bf9f
+		summarizeBy: none
+		sourceColumn: Gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column Education
+		dataType: string
+		lineageTag: 70bccd0b-ac17-4302-a9f5-c8d4f3da56a2
+		summarizeBy: none
+		sourceColumn: Education
+
+		annotation SummarizationSetBy = Automatic
+
+	column Occupation
+		dataType: string
+		lineageTag: f5f8af76-c588-4df9-b08b-862689dbf4f2
+		summarizeBy: none
+		sourceColumn: Occupation
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerType
+		dataType: string
+		lineageTag: 1a4799c0-13c4-4509-9f4c-087609dd116b
+		summarizeBy: none
+		sourceColumn: CustomerType
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date First Purchase'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: fbb3a2b0-2f99-41ca-a428-d95fc58ac5ad
+		summarizeBy: none
+		sourceColumn: Date First Purchase
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition Customer = m
+		mode: import
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"41af1aaf-2eb9-4c7d-89b0-912d289b316a" = Workspaces{[workspaceId="41af1aaf-2eb9-4c7d-89b0-912d289b316a"]}[Data],
+				    #"99907e0e-3269-4eb9-a294-ee78afd6b2c1" = #"41af1aaf-2eb9-4c7d-89b0-912d289b316a"{[dataflowId="99907e0e-3269-4eb9-a294-ee78afd6b2c1"]}[Data],
+				    DimCustomer_ = #"99907e0e-3269-4eb9-a294-ee78afd6b2c1"{[entity="Customer",version=""]}[Data]
+				in
+				    DimCustomer_
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

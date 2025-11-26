@@ -1,0 +1,975 @@
+table _Measure
+	lineageTag: b0980ae9-90b8-480f-8c82-bf4a8e8a9467
+
+	measure Sales = SUM('Fact Sales'[SalesAmount])
+		displayFolder: Fact Sales\Sales
+		lineageTag: bbec8c16-4674-4d6a-9bc3-1b0810fd495f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Online Sales Amount' = SUM('Fact Online Sales'[SalesAmount])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Online Sales\Sales
+		lineageTag: 422012bc-4190-4994-8723-79087fa9ae05
+
+	measure 'Total Cost' = SUM('Fact Sales'[TotalCost])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Fact Sales\Cost
+		lineageTag: 81a78b6d-77af-4825-a83e-73c4f978019b
+
+	measure 'Sales PY' = CALCULATE([Net Sales], SAMEPERIODLASTYEAR('Date'[Date]))
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Fact Sales\Sales
+		lineageTag: 6906e641-1873-41ce-8663-1bc9a3500119
+
+	measure 'Sales PY Var' = [Net Sales] - [Sales PY]
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Fact Sales\Sales
+		lineageTag: d9dbe049-8fa6-4607-9d6c-c06148df90e2
+
+	measure 'Sales PY Var %' = DIVIDE([Sales PY Var], [Net Sales],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Fact Sales\Sales
+		lineageTag: dd0837a1-711a-4dc2-aa26-859f249d4e2f
+
+	measure 'Total Sales Quantity' = SUM('Fact Sales'[SalesQuantity])
+		formatString: 0.00
+		displayFolder: Fact Sales\Sales
+		lineageTag: d97cde15-f1ee-418f-b195-5e8afa9036ca
+
+	measure 'FMT Sales PY Var %' = FORMAT([Sales PY Var %], "▲ 0.0%; ▼ 0.0%; 0.0%")
+		displayFolder: Fact Sales\Sales
+		lineageTag: 8db585d0-db1e-4edf-aa9c-9b206e1e7ae7
+
+	measure 'Average Sales Per Order' = DIVIDE([Net Sales], COUNTROWS('Fact Sales'))
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Fact Sales\Sales
+		lineageTag: dee9bc0c-53b1-4568-9713-05bfaa50dfaf
+
+	measure 'Total Transaction' = DISTINCTCOUNT('Fact Sales'[SalesKey])
+		formatString: 0.00
+		displayFolder: Fact Sales\Sales
+		lineageTag: 5e79f10c-37d2-469d-9618-684200d20f57
+
+	measure 'Cost PY' = CALCULATE([Total Cost], DATEADD('Date'[Date], -1, YEAR))
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Fact Sales\Cost
+		lineageTag: fd702836-e9b7-40f9-b1c2-86eaad8fe4d6
+
+	measure 'Total Cost Var' = [Total Cost] - [Cost PY]
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Fact Sales\Cost
+		lineageTag: fe519374-1d3a-403c-a5b0-e962641467c6
+
+	measure 'Cost PY Var %' = DIVIDE([Total Cost Var], [Total Cost],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Fact Sales\Cost
+		lineageTag: dff1d7db-17b6-4263-9d3b-981c1672300e
+
+	measure 'FMT Cost PY Var %' = FORMAT([Cost PY Var %], "▲ 0.0%; ▼ 0.0%; 0.0%")
+		displayFolder: Fact Sales\Cost
+		lineageTag: 9fe3a8e5-f5d6-450e-aba5-ddf91af4a3b1
+
+	measure 'Total Return Quantity' = SUM('Fact Sales'[ReturnQuantity])
+		formatString: 0.00
+		displayFolder: Fact Sales\Return
+		lineageTag: a41a002e-17a4-4ee7-bb4c-859999ab3f22
+
+	measure 'Return PY' = CALCULATE([Total Return Quantity], DATEADD('Date'[Date], -1, YEAR))
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Fact Sales\Return
+		lineageTag: 3507894f-ac7a-47db-8958-2aeba426f1d9
+
+	measure 'Return Py Var' = [Total Return Quantity] - [Return PY]
+		formatString: 0
+		displayFolder: Fact Sales\Return
+		lineageTag: 3cb8ddcd-2885-4c89-b451-e085df3d3712
+
+	measure 'Return PY Var %' = DIVIDE([Return Py Var], [Total Return Quantity],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Fact Sales\Return
+		lineageTag: 744d8816-1a69-400f-9751-0300c0463f89
+
+	measure 'FMT Return PY Var %' = FORMAT([Return PY Var %], "▲ 0.0%; ▼ 0.0%; 0.0%")
+		displayFolder: Fact Sales\Return
+		lineageTag: 0b17da72-7855-4e59-aa17-1d291cb71c7e
+
+	measure 'Gross Profit' = [Net Sales] - [Total Cost]
+		displayFolder: Fact Sales\Profit
+		lineageTag: 7341bea7-ea3f-4f4e-b06f-b0c93089757e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Profit PY' = CALCULATE([Gross Profit], SAMEPERIODLASTYEAR('Date'[Date]))
+		displayFolder: Fact Sales\Profit
+		lineageTag: c9dc3396-6f3c-4566-8632-40069f97b61a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Profit Py Var' = [Gross Profit] - [Profit PY]
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Fact Sales\Profit
+		lineageTag: e334a7f5-41ee-463f-894b-ec2b5797d2f0
+
+	measure 'Profit PY Var %' = DIVIDE([Profit Py Var], [Gross Profit],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Fact Sales\Profit
+		lineageTag: 30d172ec-1187-4b69-9e46-6e00cdf0c339
+
+	measure 'FMT Profit PY Var %' = FORMAT([Profit PY Var %], "▲ 0.0%; ▼ 0.0%; 0.0%")
+		displayFolder: Fact Sales\Profit
+		lineageTag: 58e4eb3b-6361-4c07-8ee8-847ca5685bf4
+
+	measure 'Total Return Amount' = SUM('Fact Sales'[ReturnAmount])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Fact Sales\Return
+		lineageTag: 02a294f1-e06b-414f-9cf7-e4069eb1ea92
+
+	measure 'Net Sales' = [Sales] - [Total Return Amount]
+		displayFolder: Fact Sales\Sales
+		lineageTag: 65b619d4-22dc-4572-b978-948cf272cbfb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Quantity (all channels)' = [Total Online Sales Quantity] + [Total Sales Quantity]
+		formatString: #,0.00
+		displayFolder: Channel Performance\Quantity
+		lineageTag: e019668f-416b-4013-919d-f07484600327
+
+	measure 'Total Discount' = SUM('Fact Online Sales'[DiscountAmount])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Online Sales\Sales
+		lineageTag: 8c4c575b-8111-4fba-9b99-8d81f97fad1f
+
+	measure 'Net Online Sales' = [Total Online Sales Amount]-([Total Discount] - [Online Return Amount])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Online Sales\Sales
+		lineageTag: 97909b5f-e7f8-4ad3-a1d7-93495aab9490
+
+	measure 'Online Return Amount' = SUM('Fact Online Sales'[ReturnAmount])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Online Sales\Return
+		lineageTag: 34428bef-7b9d-43e8-883a-7b62be952aae
+
+	measure 'Online Return Quantity' = SUM('Fact Online Sales'[ReturnQuantity])
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		displayFolder: Online Sales\Return
+		lineageTag: 69f4ef3e-8f07-4b69-86df-704005d98094
+
+	measure 'Online Return Rate (%)' = DIVIDE([Online Return Quantity], [Total Online Sales Quantity])
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		displayFolder: Online Sales\Return
+		lineageTag: 4a12647a-6872-4396-81af-270141c5d33a
+
+	measure 'Total Online Sales Quantity' = SUM('Fact Online Sales'[SalesQuantity])
+		formatString: #,0.00
+		displayFolder: Online Sales\Sales
+		lineageTag: 973bc598-bea7-4616-a803-ce7c81db52bb
+
+	measure 'Return Rate (%) Store' = DIVIDE([Total Return Quantity], [Total Sales Quantity])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Fact Sales\Return
+		lineageTag: 9193dd5e-c8ec-4416-acb5-17c84ae5cf4b
+
+	measure 'Unit Cost' = SUM('Fact Online Sales'[UnitCost])
+		displayFolder: Fact Sales\Cost
+		lineageTag: 2be1c7c0-676a-49c6-a71d-5d4563042b85
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Unit Price' = SUM('Fact Online Sales'[UnitPrice])
+		displayFolder: Fact Sales\Cost
+		lineageTag: edfe8e34-21aa-4af4-b42e-3f3e40933c59
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Gross Margin (%)' = DIVIDE([Gross Profit], [Net Sales])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Fact Sales\Profit
+		lineageTag: 5fe4b37b-4201-4bd7-a8a2-c0670b0a5056
+
+	measure 'Net Profit' = [Net Sales] - [Total Discount] - [Total Cost]
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Fact Sales\Profit
+		lineageTag: 9e6235bd-0e79-49e1-b321-f26a349e4bb9
+
+	measure 'Total Online Lines' = COUNT('Fact Online Sales'[OnlineSalesKey])
+		formatString: 0
+		displayFolder: Online Sales\Discount Orders Customer
+		lineageTag: 677c4e9a-846c-4880-83b7-8e337072841e
+
+	measure 'Total Online Orders' = DISTINCTCOUNT('Fact Online Sales'[SalesOrderNumber])
+		formatString: 0
+		displayFolder: Online Sales\Discount Orders Customer
+		lineageTag: ef2fda12-c425-41b6-896c-2d0ee48a2609
+
+	measure 'Average Order Value (AOV)' = DIVIDE([Total Online Sales Amount], [Total Online Orders])
+		displayFolder: Online Sales\Average
+		lineageTag: 73e94708-0c44-4a18-a439-b213216cb43c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Average Items per Order' = DIVIDE([Total Online Sales Quantity], [Total Online Orders])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Online Sales\Average
+		lineageTag: d1a14acf-7385-4a64-9543-f1c706927153
+
+	measure 'Average Line Value' = DIVIDE([Total Online Sales Amount], [Total Online Lines])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Online Sales\Average
+		lineageTag: b2d7abe7-ba30-4066-81ed-71472e1038b7
+
+	measure 'Total Online Customers' = DISTINCTCOUNT('Fact Online Sales'[CustomerKey])
+		formatString: 0.00
+		displayFolder: Online Sales\Discount Orders Customer
+		lineageTag: 86b35122-3841-464a-8f53-174f9d6013d9
+
+	measure 'Average Sales per Customer' = DIVIDE([Total Online Sales Amount], [Total Online Customers])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Online Sales\Average
+		lineageTag: 009634be-7c98-4279-b4fe-b6a3dd9bf857
+
+	measure 'Average Orders per Customer' = DIVIDE([Total Online Orders], [Total Online Customers])
+		formatString: 0.00
+		displayFolder: Online Sales\Average
+		lineageTag: c18a099b-bcfd-4a8e-8747-e8f84c265bf1
+
+	measure 'Customer Purchase Frequency' =
+			CALCULATE(
+			    DISTINCTCOUNT('Fact Online Sales'[SalesOrderNumber]),
+			    ALLEXCEPT('Fact Online Sales', 'Fact Online Sales'[CustomerKey] )
+			)
+		formatString: 0
+		displayFolder: Online Sales\Discount Orders Customer
+		lineageTag: 4b6ab291-65ad-4022-ba19-5437ddfce565
+
+	measure 'Online Discount Amount' = SUM('Fact Online Sales'[DiscountAmount])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Online Sales\Discount Orders Customer
+		lineageTag: afa51c82-753c-4e6d-b77d-ed21ebc4a186
+
+	measure 'Online Discount Quantity' = SUM('Fact Online Sales'[DiscountQuantity])
+		formatString: 0
+		displayFolder: Online Sales\Discount Orders Customer
+		lineageTag: 72c74b08-804e-484d-b560-6b01371280fb
+
+	measure 'Online Total Cost' = ```
+			SUM('Fact Online Sales'[TotalCost])
+			
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Online Sales\Cost/Price
+		lineageTag: 959aaf38-f539-42dd-90f2-c39eeb1ea50c
+
+	measure 'Online Unit Cost' = ```
+			SUM('Fact Online Sales'[UnitCost])
+			
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Online Sales\Cost/Price
+		lineageTag: 837ca9a1-fd15-480e-bb30-d36f574fbff2
+
+	measure 'Online Unit Price' = SUM('Fact Online Sales'[UnitPrice])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Online Sales\Cost/Price
+		lineageTag: 98da1cc8-8b22-4525-9031-d0e1c544c071
+
+	measure 'Online Gross Profit' = [Total Online Sales Amount] - [Online Total Cost]
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Online Sales\Profit
+		lineageTag: 3ef165c5-074a-4c00-aa1a-e400e827facf
+
+	measure 'Total Sales Amount Quota' = SUM('Fact Sales Quota'[SalesAmountQuota])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Sales Quota
+		lineageTag: b3b425f5-79c7-41cc-b1e9-a2b0d178ed9b
+
+	measure 'Sales Quantity Quota' = SUM('Fact Sales Quota'[SalesQuantityQuota])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Sales Quota
+		lineageTag: 882bf4c6-d102-424b-ad0f-1d1c04370939
+
+	measure 'Gross Margin Quota' = ```
+			SUM('Fact Sales Quota'[GrossMarginQuota])
+			
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Sales Quota
+		lineageTag: 66f9bb73-a425-4bf8-a98a-271cde81379a
+
+	measure 'Sales Amount Variance' = ```
+			[Total Sales (All Channels)] - [Total Sales Amount Quota]
+			
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Variance Analysis
+		lineageTag: 838963b2-37a6-4fb2-bc59-4e9e1322d7dd
+
+	measure 'Sales Amount Variance (%)' = DIVIDE([Sales Amount Variance], [Total Sales Amount Quota])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Variance Analysis
+		lineageTag: 7ed2468c-5a36-47a6-9158-0ace97a2c34d
+
+	measure 'Sales Quantity Variance' = [Total Sales Quantity] - [Sales Quantity Quota]
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Variance Analysis
+		lineageTag: 94566e79-bb2a-422b-80e1-50375be493af
+
+	measure 'Profit Margin Variance' = [Total Profit (All channel)] - [Gross Margin Quota]
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Variance Analysis
+		lineageTag: 2e5fea3b-9674-43da-9a33-ea761444d9b9
+
+	measure 'Sales Achievement (%)' = DIVIDE([Total Sales (All Channels)], [Total Sales Amount Quota])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Variance Analysis
+		lineageTag: 71ae7054-7a27-480f-b87d-e174aa23b761
+
+	measure 'Quota Status' = IF([Sales Achievement (%)] >= 100, "Met", "Not Met")
+		displayFolder: Variance Analysis
+		lineageTag: 0d26fad3-a9ac-469a-8903-7c6b3d4fe413
+
+	measure 'Total Sales (All Channels)' = ```
+			[Net Sales] + [Net Online Sales]
+			
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Channel Performance\Sales
+		lineageTag: 60c8c2ef-1b01-4f61-9894-fa594b9fc046
+
+	measure 'Online Sales Mix (%)' = ```
+			DIVIDE([Total Online Sales Amount], [Total Sales (All Channels)]) 
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Channel Performance
+		lineageTag: 9cfa17c5-ef6d-42ea-8e27-88ba9e4caafe
+
+	measure 'Time Intelligence'
+		displayFolder: Time Intelligence
+		lineageTag: 4069f95a-4016-46b1-8cdf-b38cbd42db41
+
+	measure 'Total Returns (All Channels)' = [Total Return Amount] + [Online Return Amount]
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Channel Performance\Return
+		lineageTag: b07128b4-2e44-4024-bcb0-e4c5b4c91e3d
+
+	measure 'Store vs Online Return Rate Comparison' = [Return Rate (%) Store] - [Online Return Rate (%)]
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Channel Performance
+		lineageTag: 60335bc8-48e7-4942-bc92-2cb9bfbbefcc
+
+	measure 'Sales Amount Running Total' =
+			
+			CALCULATE(
+			    [Net Sales],
+			    FILTER(
+			        ALL('Date'),
+			        'Date'[Date] <= MAX('Date'[Date])
+			    )
+			)
+		displayFolder: Time Intelligence
+		lineageTag: 93df4faf-c83e-4ac8-a883-a8150d9fb50f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sales Amount 3-Month MA' = CALCULATE([Net Sales], DATESINPERIOD('Date'[Date], LASTDATE('Date'[Date]), -3, MONTH))
+		displayFolder: Time Intelligence
+		lineageTag: a688dfd8-59ad-48f6-b802-f96b3c710acb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Sales PY' =
+			
+			CALCULATE(
+			    [Total Sales (All Channels)],
+			    SAMEPERIODLASTYEAR('Date'[Date])
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Channel Performance\Sales
+		lineageTag: 1f696a70-ba12-4fa4-89df-8c2b8b9717e9
+
+	measure 'YoY Growth %' =
+			
+			VAR CurrentRevenue = [Total Sales (All Channels)]
+			VAR PYRevenue = CALCULATE(
+			    [Total Sales (All Channels)],
+			    SAMEPERIODLASTYEAR('Date'[Date])
+			)
+			RETURN
+			DIVIDE(CurrentRevenue - PYRevenue, PYRevenue, 0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Channel Performance
+		lineageTag: b06c96e7-e610-4096-914d-1c5aa9ec402b
+
+	measure 'Sales by Channel' =
+			
+			SWITCH(
+			    TRUE(),
+			    SELECTEDVALUE(Channel[Channel Name]) = "Online", [Net Online Sales],
+			    SELECTEDVALUE(Channel[Channel Name]) = "Store", [Net Sales],
+			    BLANK()
+			)
+		displayFolder: Channel Performance
+		lineageTag: 434823c2-d000-48fb-bd3a-298cb2289fb7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Profit (All channel)' = [Gross Profit] + [Online Gross Profit]
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Channel Performance\Profit
+		lineageTag: 5e6639bf-0f50-4309-9b61-3510f72607df
+
+	measure 'Profit % (all channel)' = DIVIDE([Total Profit (All channel)], [Total Sales (All Channels)])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Channel Performance
+		lineageTag: c8618068-4f90-4967-96a6-5e0e0d8fd0bc
+
+	measure 'Total Sales (All Channels) Var' = [Total Sales (All Channels)] -[Total Sales PY]
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Channel Performance\Sales
+		lineageTag: 285bcd6a-a5a4-4257-ae0f-d155572ce05c
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Total Cost (All Channels)' = [Online Total Cost] + [Total Cost]
+		displayFolder: Channel Performance\Cost
+		lineageTag: 218b36d0-74f1-41d5-a75c-6877986c7c6b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Measure
+		displayFolder: Variance Analysis
+		lineageTag: eab0369f-6599-4b98-80fa-e437a89a49e0
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	measure 'Quantity Achievement %' =
+			
+			VAR ActualQty = [Total Quantity (all channels)]
+			VAR TargetQty = [Sales Quantity Quota]
+			RETURN
+			DIVIDE(ActualQty, TargetQty, 0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Variance Analysis
+		lineageTag: 3ea3febd-55d5-4e14-83cd-e04b6b22e339
+
+	measure 'Achievement Category' =
+			
+			VAR Achievement = [Sales Achievement (%)]
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    Achievement >= 110, "Exceeding (110%+)",
+			    Achievement >= 100, "Met (100-110%)",
+			    Achievement >= 90, "Near Target (90-100%)",
+			    Achievement >= 80, "Below Target (80-90%)",
+			    "Critical (<80%)"
+			)
+		displayFolder: Variance Analysis
+		lineageTag: 15937f44-ce0c-452e-abd1-52d4ed0135ac
+
+	measure 'Online Return Rate %' = ```
+			
+			DIVIDE(
+			    [Online Return Amount],
+			    [Total Online Sales Amount]
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Online Sales
+		lineageTag: 2bb96890-df31-4f0d-882b-b42834802ce5
+
+	measure 'Return Rate Difference' =
+			
+			[Online Return Rate %] - [Return Rate (%) Store]
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Online Sales
+		lineageTag: 665c914d-a5a0-4230-a9e0-95c600c94d1b
+
+	measure 'YoY Growth % Store' =
+			
+			VAR CurrentStore = [Net Sales]
+			VAR PYStore = CALCULATE([Net Sales], SAMEPERIODLASTYEAR('Date'[Date]))
+			RETURN
+			DIVIDE(CurrentStore - PYStore, PYStore)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Channel Performance
+		lineageTag: 22ad9651-154d-448a-8531-2b1d4307971b
+
+	measure 'YoY Growth % Online' =
+			
+			VAR CurrentOnline = [Total Online Sales Amount]
+			VAR PYOnline = CALCULATE([Total Online Sales Amount], SAMEPERIODLASTYEAR('Date'[Date]))
+			RETURN
+			DIVIDE(CurrentOnline - PYOnline, PYOnline)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Channel Performance
+		lineageTag: 5feb8ec6-95ec-406d-a7cf-536ab7c6780f
+
+	measure 'Growth Leader' =
+			
+			IF(
+			    [YoY Growth % Store] > [YoY Growth % Online],
+			    "Store ▲ " & FORMAT([YoY Growth % Store], "0.0%"),
+			    "Online ▲ " & FORMAT([YoY Growth % Online], "0.0%")
+			)
+		displayFolder: Channel Performance
+		lineageTag: c5d6c695-bdea-4676-940d-fbfdf16360ad
+
+	measure 'Margin Gap' = ```
+			
+			[Gross Margin (%)] - [Online Gross Profit]
+			
+			```
+		displayFolder: Channel Performance
+		lineageTag: 3d3d491c-23e8-46fe-b9ba-11b18c6da6b0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Online Gross Margin (%)' = DIVIDE([Online Gross Profit], [Net Online Sales])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Online Sales\Sales
+		lineageTag: fac7eda9-1e56-4873-bacf-8751e8badeda
+
+	measure 'More Profitable Channel' =
+			
+			IF(
+			    [Gross Margin (%)] > [Online Gross Margin (%)],
+			    "Store: " & FORMAT([Gross Margin (%)], "0.0%"),
+			    "Online: " & FORMAT([Online Gross Margin (%)], "0.0%")
+			)
+		displayFolder: Channel Performance
+		lineageTag: 7af9c8c4-8eb4-4767-8b86-19c25d9ad059
+
+	measure 'Store AOV' = ```
+			
+			DIVIDE([Net Sales], [Total Transaction])
+			
+			```
+		displayFolder: Channel Performance
+		lineageTag: cb67d575-894a-46ff-b326-d5a0abd67a13
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'AOV Difference %' =
+			
+			DIVIDE([AOV Difference], [Store AOV])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Channel Performance
+		lineageTag: e4b5cf2c-c531-4622-94fa-0d7aa27323a0
+
+	measure 'Online AOV' = [Average Order Value (AOV)]
+		displayFolder: Channel Performance
+		lineageTag: ed94fac6-cb68-483d-a1a4-4dd704241c34
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'AOV Difference' = ```
+			
+			[Online AOV] - [Store AOV]
+			
+			```
+		displayFolder: Channel Performance
+		lineageTag: 20e31a64-71fa-499a-80ff-dcabd259c61d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Higher AOV Channel' =
+			
+			IF(
+			    [Online AOV] > [Store AOV],
+			    "Online: " & FORMAT([Online AOV], "$#,##0"),
+			    "Store: " & FORMAT([Store AOV], "$#,##0")
+			)
+		displayFolder: Channel Performance
+		lineageTag: ee7a9dc7-c9c6-4f10-be60-a63821c4316f
+
+	measure 'Total Product Sold' = DISTINCTCOUNT('Product'[Product Key])
+		formatString: 0.00
+		lineageTag: f5d8c830-8137-4ddc-aa66-4a5cf96d53d9
+
+	measure 'Avg Unit Price' =
+			
+			VAR TotalRevenue = [Total Sales (All Channels)]
+			VAR TotalQty = [Total Quantity (all channels)]
+			RETURN
+			DIVIDE(TotalRevenue, TotalQty)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Channel Performance
+		lineageTag: 14df9c82-e4aa-4ceb-892d-340387e62b4a
+
+	measure 'Return Rate % (All Channels)' = DIVIDE([Total Returns (All Channels)],[Total Sales (All Channels)])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Channel Performance
+		lineageTag: 69ef164b-178b-418a-95a0-2a9ecaa3c4da
+
+	measure 'FMT Label - Channel' = ```
+			
+			var _selection = SELECTEDVALUE(Channel[Channel Name])
+			RETURN 
+			IF(ISFILTERED(Channel[Channel Name]),
+			"Sales by " & _selection,
+			"Sales")
+			```
+		displayFolder: Fact Sales\Sales
+		lineageTag: 2d6c5b27-4117-4651-8ad1-daa350dbd0dd
+
+	measure 'Total Sales PY Var %' = DIVIDE( [Total Sales (All Channels) Var], [Total Sales PY], 0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Channel Performance\Sales
+		lineageTag: 60916662-e4b3-489c-a0ee-43aefa40cf1f
+
+	measure 'FMT Revenue PY Var %' = FORMAT([Total Sales PY Var %], "▲ 0.0%; ▼ 0.0%; 0.0%")
+		displayFolder: Channel Performance\Sales
+		lineageTag: 1cf7202e-fc59-410f-8338-97685c9abcde
+
+	measure 'Profit PY (all channel)' = ```
+			
+			CALCULATE(
+			    [Total Profit (All channel)],
+			    SAMEPERIODLASTYEAR('Date'[Date])
+			)
+			
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Channel Performance\Profit
+		lineageTag: d490a292-926f-401a-aa36-dc36ea5e9290
+
+	measure 'Total Profit Var (all channel)' = ```
+			
+			[Total Profit (All channel)] - [Profit PY]
+			
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Channel Performance\Profit
+		lineageTag: f28b0d04-a967-44ea-b6c4-fc24d67d1660
+
+	measure 'Profit Var % (all channel)' = ```
+			
+			DIVIDE([Total Profit Var (all channel)], [Profit PY], 0)
+			
+			```
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		displayFolder: Channel Performance\Profit
+		lineageTag: 56d95daa-7919-4ada-80c9-088a87a11c4a
+
+	measure 'FMT Profit Var % (all channel)' = ```
+			
+			FORMAT([Profit Var % (all channel)], "▲ 0.0%; ▼ 0.0%; 0.0%")
+			
+			```
+		displayFolder: Channel Performance\Profit
+		lineageTag: 087aef7d-fad3-4754-a61a-b6ba4a51ce82
+
+	measure 'Cost PY (all channel)' = ```
+			
+			CALCULATE(
+			    [Total Cost (All Channels)],
+			    SAMEPERIODLASTYEAR('Date'[Date])
+			)
+			
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Channel Performance\Cost
+		lineageTag: 0c549d8e-2604-4c03-8bd9-97b0bd07ed3c
+
+	measure 'Cost Var (all channel)' = ```
+			
+			[Total Cost (All Channels)] - [Cost PY (all channel)]
+			
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Channel Performance\Cost
+		lineageTag: 580b6cf0-18d3-45bc-962b-41dab29f6c23
+
+	measure 'Cost Var % (all channel)' = ```
+			
+			DIVIDE([Cost Var (all channel)], [Cost PY], 0)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Channel Performance\Cost
+		lineageTag: 5ddd4731-656a-4c8d-9fcb-6dffafdabb9f
+
+	measure 'FMT Cost Var % (all channel)' = ```
+			
+			FORMAT([Cost Var % (all channel)], "▲ 0.0%; ▼ 0.0%; 0.0%")
+			
+			```
+		displayFolder: Channel Performance\Cost
+		lineageTag: 9489c149-7b96-4c7c-be74-df22d245b2a3
+
+	measure 'Return PY (all channel)' = ```
+			
+			CALCULATE(
+			    [Total Returns (All Channels)],
+			    SAMEPERIODLASTYEAR('Date'[Date])
+			)
+			
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Channel Performance\Return
+		lineageTag: 2079715b-c7d2-407d-a0b5-b1e4d589560d
+
+	measure 'Return Var (all channel)' = ```
+			
+			[Total Returns (All Channels)] - [Return PY]
+			
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Channel Performance\Return
+		lineageTag: ebc929e4-dded-49a0-bdd0-c37d182ab333
+
+	measure 'Return Var % (all channel)' = ```
+			
+			DIVIDE([Return Var (all channel)], [Return PY], 0)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Channel Performance\Return
+		lineageTag: 29aeb214-256f-4dc7-9c00-70840f14942c
+
+	measure 'FMT Return Var % (all channel)' = ```
+			
+			FORMAT( [Return Var % (all channel)], "▲ 0.0%; ▼ 0.0%; 0.0%")
+			
+			```
+		displayFolder: Channel Performance\Return
+		lineageTag: fdd680c5-74d3-47b1-9760-af173f357855
+
+	measure 'Quantity PY (all channel)' = ```
+			
+			CALCULATE(
+			    [Total Quantity (all channels)],
+			    SAMEPERIODLASTYEAR('Date'[Date])
+			)
+			
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Channel Performance\Quantity
+		lineageTag: e1f13bb4-35de-4ee4-9ac7-1ccb2669ec9b
+
+	measure 'Quantity Var (all channel)' = ```
+			
+			[Total Quantity (all channels)] - [Quantity PY (all channel)]
+			
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Channel Performance\Quantity
+		lineageTag: 0d9a72da-c1e7-4391-b790-13f74726a3be
+
+	measure 'Quantity Var % (all channel)' = ```
+			
+			DIVIDE([Quantity PY (all channel)], [Quantity PY (all channel)], 0)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Channel Performance\Quantity
+		lineageTag: b7e6716c-e1a0-499b-8799-9dd5634ecefe
+
+	measure 'FMT Quantity Var % (all channel)' = ```
+			
+			FORMAT([Quantity Var % (all channel)], "▲ 0.0%; ▼ 0.0%; 0.0%")
+			
+			```
+		displayFolder: Channel Performance\Quantity
+		lineageTag: 3ea846d2-8f66-449f-9f67-ce172baac2ff
+
+	measure 'Total Sales PY %' = DIVIDE([Total Sales PY],[Total Sales (All Channels)],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Channel Performance\Sales
+		lineageTag: d23f73b5-64f6-4b07-8201-b72a6d1fc97d
+
+	measure 'Total Sales Quota PY' =
+			
+			CALCULATE(
+			    [Total Sales Amount Quota],
+			    SAMEPERIODLASTYEAR('Date'[Date])
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: Sales Quota
+		lineageTag: 7ea09c07-23b9-482a-bb3d-67cc5f7c349e
+
+	measure 'Total Sales Quota Var' = ```
+			[Total Sales Amount Quota] - [Total Sales Quota PY]
+			
+			```
+		displayFolder: Sales Quota
+		lineageTag: 588d4517-c95b-459e-a0df-f25c8287db7e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Sales Quota PY Var %' = DIVIDE([Total Sales Quota Var], [Total Sales Quota PY],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Sales Quota
+		lineageTag: aeff3bb6-f371-4213-b62d-49ce02ecb333
+
+	measure 'FMT Sales Quota PY Var %' = FORMAT([Total Sales Quota PY Var %], "▲ 0.0%; ▼ 0.0%; 0.0%")
+		displayFolder: Sales Quota
+		lineageTag: ff71849e-e5b7-429d-a3fa-eb4d49a84962
+
+	measure 'Overall Gross Margin %' =
+			
+			DIVIDE([Total Profit (All channel)], [Total Sales (All Channels)])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Channel Performance\Profit
+		lineageTag: e2a2234b-9bb6-439b-bb31-6cb3dab6e608
+
+	measure 'Online Sales PY' = ```
+			
+			CALCULATE(
+			    [Net Online Sales],
+			    SAMEPERIODLASTYEAR('Date'[Date])
+			)
+			
+			```
+		displayFolder: Online Sales\Sales
+		lineageTag: 692cf0ec-c8fe-47a9-b614-fa734024aad6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Online Sales Var' = ```
+			
+			[Net Online Sales] - [Online Sales PY]
+			
+			```
+		displayFolder: Online Sales\Sales
+		lineageTag: 478f821e-191d-46bb-a77c-2d68c6fac6a8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Online Sales Var %' = ```
+			
+			DIVIDE([Online Sales Var], [Online Sales PY], 0)
+			
+			```
+		displayFolder: Online Sales\Sales
+		lineageTag: b98cedf4-181f-4caf-887e-6a820350ab0a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'FMT Online Sales Var %' = ```
+			
+			FORMAT([Online Sales Var %], "▲ 0.0%; ▼ 0.0%; 0.0%")
+			
+			```
+		displayFolder: Online Sales\Sales
+		lineageTag: 2af178e3-daeb-428d-8f15-ee652275c433
+
+	measure 'Online Profit PY' = ```
+			
+			CALCULATE(
+			    [Online Gross Profit],
+			    SAMEPERIODLASTYEAR('Date'[Date])
+			)
+			
+			```
+		displayFolder: Online Sales\Profit
+		lineageTag: c46b991b-2b21-441c-abe5-9d0bf674d269
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Online Profit Var' = ```
+			
+			[Online Gross Profit] - [Online Profit PY]
+			
+			```
+		displayFolder: Online Sales\Profit
+		lineageTag: 7873e80c-527e-4c04-bb08-7ba3d9bdeaf8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Online Profit Var %' = ```
+			
+			DIVIDE([Online Profit Var], [Online Profit PY], 0)
+			
+			```
+		displayFolder: Online Sales\Profit
+		lineageTag: f9be80c1-c030-493e-b5cf-e755d01e844a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'FMT Online Profit Var %' = ```
+			
+			FORMAT([Online Profit Var %], "▲ 0.0%; ▼ 0.0%; 0.0%")
+			
+			```
+		displayFolder: Online Sales\Profit
+		lineageTag: 8cda882a-ceaf-4274-84f4-3d5310cf8885
+
+	measure 'Online Cost PY' = ```
+			
+			CALCULATE(
+			    [Online Total Cost],
+			    SAMEPERIODLASTYEAR('Date'[Date])
+			)
+			
+			```
+		displayFolder: Online Sales\Cost/Price
+		lineageTag: b0c85f7c-d25b-47e0-bdd5-3dd532029e3c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Online Cost Var' = ```
+			
+			[Online Total Cost] - [Online Cost PY]
+			
+			```
+		displayFolder: Online Sales\Cost/Price
+		lineageTag: 494b336d-59e7-4816-a81f-47dc4d9afc16
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Online Cost Var %' = ```
+			
+			DIVIDE([Online Cost Var], [Online Cost PY], 0)
+			
+			```
+		displayFolder: Online Sales\Cost/Price
+		lineageTag: 2200bf40-f91b-4482-ba21-320a3a9527e4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'FMT Online Cost Var %' = ```
+			
+			FORMAT([Online Cost Var %], "▲ 0.0%; ▼ 0.0%; 0.0%")
+			
+			```
+		displayFolder: Online Sales\Cost/Price
+		lineageTag: c92efc08-6e74-41db-8b10-df35e14f095c
+
+	measure 'Profit %  FMT (all channel)' = ```
+			
+			FORMAT([Profit % (all channel)], "▲ 0.0%; ▼ 0.0%; 0.0%")
+			
+			```
+		displayFolder: Channel Performance
+		lineageTag: 267f1259-f7bf-4727-96ba-3e0f875f9d4e
+
+	measure 'FMT Profit % (all channel)' = ```
+			
+			FORMAT([Overall Gross Margin %], "▲ 0.0%; ▼ 0.0%; 0.0%")
+			
+			```
+		displayFolder: Channel Performance\Profit
+		lineageTag: 42001467-1cfd-4e36-9041-dafd812edd8d
+
+	column Column
+		formatString: 0
+		lineageTag: 0e6d1d8e-20c1-4dce-a853-d3dbfc89bbfc
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measure = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 370a96cc54474c14a0ca192548ab2bb7
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

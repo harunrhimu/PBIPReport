@@ -1,0 +1,298 @@
+table Date
+	lineageTag: 268248c2-2b25-446d-abdc-ea035dae8071
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 801e6e65-d7c9-48f0-8131-62d1687e2660
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Calendar Year'
+		dataType: string
+		lineageTag: 14324d1a-b576-41ad-8032-ab554708d344
+		summarizeBy: none
+		sourceColumn: Calendar Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Offset'
+		dataType: int64
+		formatString: 0
+		lineageTag: 42fe8f0d-3660-4c7e-9633-2f42d6bd2853
+		summarizeBy: sum
+		sourceColumn: Year Offset
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fiscal Year'
+		dataType: string
+		lineageTag: 9796c446-4909-4b4b-9ff4-4fc5b06f111d
+		summarizeBy: none
+		sourceColumn: Fiscal Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fiscal Year Offset'
+		dataType: int64
+		formatString: 0
+		lineageTag: 688eed14-ade7-42b8-a870-ecec5af20a85
+		summarizeBy: sum
+		sourceColumn: Fiscal Year Offset
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: string
+		lineageTag: d3638264-fdc8-4a1a-bc01-2a5d3e2efd01
+		summarizeBy: none
+		sourceColumn: Month
+		sortByColumn: MonthNumberOfYear
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fiscal Month'
+		dataType: string
+		lineageTag: 1d0ab21e-f170-4180-9432-07176fc1f687
+		summarizeBy: none
+		sourceColumn: Fiscal Month
+		sortByColumn: MonthNumberOfYear
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Offset'
+		dataType: int64
+		formatString: 0
+		lineageTag: d6cb6898-37bb-41e3-be15-fe399d5210f5
+		summarizeBy: sum
+		sourceColumn: Month Offset
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Status'
+		dataType: string
+		lineageTag: d061edd3-39bc-40fd-a449-55111340bc62
+		summarizeBy: none
+		sourceColumn: Month Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column LTM
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a85e5a05-ebd0-4e0d-ad9f-5e38d7de0171
+		summarizeBy: none
+		sourceColumn: LTM
+
+		annotation SummarizationSetBy = Automatic
+
+	column PeriodNumberOfYear
+		dataType: int64
+		formatString: 0
+		lineageTag: 4665da96-f10a-4dd5-b94e-ed40d20654be
+		summarizeBy: sum
+		sourceColumn: PeriodNumberOfYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNumberOfYear
+		dataType: int64
+		formatString: 0
+		lineageTag: 7b2f0f93-bc3b-4207-9ede-d2d295921486
+		summarizeBy: sum
+		sourceColumn: MonthNumberOfYear
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthLongName
+		dataType: string
+		lineageTag: 570b1a02-1fd0-4a2f-acb1-452952956b68
+		summarizeBy: none
+		sourceColumn: MonthLongName
+		sortByColumn: MonthNumberOfYear
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthShortName
+		dataType: string
+		lineageTag: 75f8fb01-e978-4fbd-89e8-484756ace50a
+		summarizeBy: none
+		sourceColumn: MonthShortName
+		sortByColumn: MonthNumberOfYear
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fiscal Quarter'
+		dataType: string
+		lineageTag: a4951b9a-7a86-478b-b2eb-cf85acadee4f
+		summarizeBy: none
+		sourceColumn: Fiscal Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: string
+		lineageTag: 84b849e3-ef86-4ae0-bedf-29a98f161238
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuarterNumberOfYear
+		dataType: int64
+		formatString: 0
+		lineageTag: d219872e-d3c2-4283-b4b6-507a18ba8b16
+		summarizeBy: sum
+		sourceColumn: QuarterNumberOfYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fiscal Quarter Offset'
+		dataType: int64
+		formatString: 0
+		lineageTag: c25e1fbc-3347-498b-8a7d-2ab54cdfc038
+		summarizeBy: sum
+		sourceColumn: Fiscal Quarter Offset
+
+		annotation SummarizationSetBy = Automatic
+
+	column StartOfWeek
+		dataType: string
+		lineageTag: 24d93786-2a6b-4955-bda5-0175b1491bb5
+		summarizeBy: none
+		sourceColumn: StartOfWeek
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekName
+		dataType: string
+		lineageTag: 9176ac43-f7f8-4581-a11d-4aab8aa2c6f9
+		summarizeBy: none
+		sourceColumn: WeekName
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week Offset'
+		dataType: int64
+		formatString: 0
+		lineageTag: 80f53c90-04f2-4866-89a7-8597353f7163
+		summarizeBy: sum
+		sourceColumn: Week Offset
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Offset'
+		dataType: int64
+		formatString: 0
+		lineageTag: 6c249743-57de-4f17-b5fd-157719ca6da0
+		summarizeBy: sum
+		sourceColumn: Day Offset
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfMonth
+		dataType: int64
+		formatString: 0
+		lineageTag: 0c1594e4-114f-449a-9539-e9cee11e0c76
+		summarizeBy: sum
+		sourceColumn: DayOfMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column Weekday
+		dataType: string
+		lineageTag: 49cc5da1-d80f-4d19-9af1-58d183eca99c
+		summarizeBy: none
+		sourceColumn: Weekday
+		sortByColumn: WeekdayNumber
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekdayShortName
+		dataType: string
+		lineageTag: fdcf98e7-954c-4cfd-aecf-32da7668e802
+		summarizeBy: none
+		sourceColumn: WeekdayShortName
+		sortByColumn: WeekdayNumber
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekdayNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: 8084fc92-a44a-44f9-a966-492d01f950e6
+		summarizeBy: sum
+		sourceColumn: WeekdayNumber
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsWeekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ac6e4cf9-6fd2-467c-b6d4-ab9f9aa388b0
+		summarizeBy: none
+		sourceColumn: IsWeekend
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Half Year'
+		dataType: string
+		lineageTag: 045aa594-43f1-4420-a741-1f429c21addc
+		summarizeBy: none
+		sourceColumn: Half Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fiscal Half Year'
+		dataType: string
+		lineageTag: 840ae417-532d-4dc7-987c-d9c9abfc6bf5
+		summarizeBy: none
+		sourceColumn: Fiscal Half Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Fiscal Half Year Offset'
+		dataType: int64
+		formatString: 0
+		lineageTag: 54b73a8f-d442-484b-be67-3fe99574f4f6
+		summarizeBy: sum
+		sourceColumn: Fiscal Half Year Offset
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Date = m
+		mode: import
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"41af1aaf-2eb9-4c7d-89b0-912d289b316a" = Workspaces{[workspaceId="41af1aaf-2eb9-4c7d-89b0-912d289b316a"]}[Data],
+				    #"99907e0e-3269-4eb9-a294-ee78afd6b2c1" = #"41af1aaf-2eb9-4c7d-89b0-912d289b316a"{[dataflowId="99907e0e-3269-4eb9-a294-ee78afd6b2c1"]}[Data],
+				    DimCustomer_ = #"99907e0e-3269-4eb9-a294-ee78afd6b2c1"{[entity="Date",version=""]}[Data]
+				in
+				    DimCustomer_
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+
