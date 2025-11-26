@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Week 1 + 2 DC Sales Assignment - Harun"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "81b5791b-1d0c-8d2c-4444-5dbebd803a99"
+  }
+}

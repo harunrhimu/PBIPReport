@@ -1,0 +1,112 @@
+table Product
+	lineageTag: 122571d0-da73-4df9-ae87-dfda8334d5b0
+
+	column Manufacturer
+		dataType: string
+		lineageTag: 19557513-51a9-45e4-ae1b-efdd2a6f86d0
+		summarizeBy: none
+		sourceColumn: Manufacturer
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Key'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 751ccc52-a544-4287-878a-23cb06e18b22
+		summarizeBy: none
+		sourceColumn: Product Key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Label'
+		dataType: int64
+		formatString: 0
+		lineageTag: 130ce012-2442-42bb-bc4b-382c642e7158
+		summarizeBy: sum
+		sourceColumn: Product Label
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Name'
+		dataType: string
+		lineageTag: 141cd37d-c23f-4b3c-9967-0adb95d61472
+		summarizeBy: none
+		sourceColumn: Product Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Description'
+		dataType: string
+		lineageTag: ca75b83d-1aee-4935-873d-a6a9ebe6784c
+		summarizeBy: none
+		sourceColumn: Product Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Brand Name'
+		dataType: string
+		lineageTag: d4e79a43-2f4d-444b-99b3-90e14ed17a79
+		summarizeBy: none
+		sourceColumn: Brand Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Class Name'
+		dataType: string
+		lineageTag: 0dc30642-96e7-4ada-8e69-0f32ac5febd4
+		summarizeBy: none
+		sourceColumn: Class Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Color Name'
+		dataType: string
+		lineageTag: f68516fd-3d7e-4887-94db-17accc2f649e
+		summarizeBy: none
+		sourceColumn: Color Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Stock Type'
+		dataType: string
+		lineageTag: 68f8de1b-b18b-4cba-93fc-76a01444a9f9
+		summarizeBy: none
+		sourceColumn: Stock Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Subcategory Name'
+		dataType: string
+		lineageTag: b48cb60b-8f33-4c91-90ea-a20af0143169
+		summarizeBy: none
+		sourceColumn: Product Subcategory Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Category Name'
+		dataType: string
+		lineageTag: 1a6ad111-cbda-43dc-b68c-8cee6958fbfd
+		summarizeBy: none
+		sourceColumn: Product Category Name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Product = m
+		mode: import
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"41af1aaf-2eb9-4c7d-89b0-912d289b316a" = Workspaces{[workspaceId="41af1aaf-2eb9-4c7d-89b0-912d289b316a"]}[Data],
+				    #"99907e0e-3269-4eb9-a294-ee78afd6b2c1" = #"41af1aaf-2eb9-4c7d-89b0-912d289b316a"{[dataflowId="99907e0e-3269-4eb9-a294-ee78afd6b2c1"]}[Data],
+				    DimProduct_ = #"99907e0e-3269-4eb9-a294-ee78afd6b2c1"{[entity="Product",version=""]}[Data]
+				in
+				    DimProduct_
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

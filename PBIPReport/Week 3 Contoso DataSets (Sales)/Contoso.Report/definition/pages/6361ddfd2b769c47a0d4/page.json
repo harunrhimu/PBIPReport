@@ -1,0 +1,77 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+  "name": "6361ddfd2b769c47a0d4",
+  "displayName": "Store Analysis",
+  "displayOption": "FitToPage",
+  "height": 1080,
+  "width": 1920,
+  "objects": {
+    "background": [
+      {
+        "properties": {
+          "image": {
+            "image": {
+              "name": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Contoso.png'"
+                  }
+                }
+              },
+              "url": {
+                "expr": {
+                  "ResourcePackageItem": {
+                    "PackageName": "RegisteredResources",
+                    "PackageType": 1,
+                    "ItemName": "Contoso060637315268539105.png"
+                  }
+                }
+              },
+              "scaling": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Fill'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "c38fabe737bac2886ab7",
+      "target": "5be836f17dc1b21e3f0a",
+      "type": "DataFilter"
+    },
+    {
+      "source": "5be836f17dc1b21e3f0a",
+      "target": "c38fabe737bac2886ab7",
+      "type": "DataFilter"
+    },
+    {
+      "source": "5be836f17dc1b21e3f0a",
+      "target": "71d2ba16f08f643f70cc",
+      "type": "DataFilter"
+    },
+    {
+      "source": "1486479869a98dacc524",
+      "target": "c38fabe737bac2886ab7",
+      "type": "DataFilter"
+    },
+    {
+      "source": "fd555edbc4608207a552",
+      "target": "c38fabe737bac2886ab7",
+      "type": "DataFilter"
+    }
+  ]
+}
